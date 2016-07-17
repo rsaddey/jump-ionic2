@@ -26,6 +26,9 @@ RUN apt-get install -y -q \
 # https://github.com/npm/npm/issues/9863 Reinstalling npm v3 fails on Docker
 
 
+# 17-jul-16 global gulp needed for gulp build --typescheck on Ionic framework sources
+RUN npm install -g -y gulp@3.9.1
+
 RUN npm install -g -y ionic@beta
 
 
@@ -41,6 +44,7 @@ WORKDIR /projects
 
 CMD bash -C '/start.sh';'bash'
 
-EXPOSE 8100 35729
+# 17-jul-16 now expose port 5000 as well in order to run node.js
+EXPOSE 5000 8100 35729
 
 VOLUME /projects
