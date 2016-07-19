@@ -27,24 +27,23 @@ RUN apt-get install -y -q \
 
 
 # 17-jul-16 global gulp needed for gulp build --typescheck on Ionic framework sources
-RUN npm install -g -y gulp@3.9.1
+RUN npm install -g --unsafe-perm -y gulp@3.9.1
 
-RUN npm install -g -y ionic@beta
+RUN npm install -g --unsafe-perm -y ionic@beta
 
+# 19-jul-16 support Angular 2 dev
+RUN npm install --unsafe-perm -g -y typescript typings lite-server concurrently angular-cli
 
-RUN echo '1. Run ineractively and map the /projects volume to your host, e.g. docker run -it -v /Users/<host_path>:/projects <image>' > /readme.txt
-RUN echo '2. ionic start myFirstIonic2App sidemenu --v2 --ts ### --ts selects TypeScript' >> /readme.txt
-RUN echo '3. cd myFirstIonic2App' >> /readme.txt
-RUN echo '4. ionic serve --all' >> /readme.txt
-
-RUN echo 'cd /projects' > /start.sh
-RUN echo 'cat /readme.txt' >> /start.sh
+COPY readme.txt /readme.txt
+COPY start.sh /start.sh
 
 WORKDIR /projects
 
 CMD bash -C '/start.sh';'bash'
 
-# 17-jul-16 now expose port 5000 as well in order to run node.js
-EXPOSE 5000 8100 35729
+# ports 8100 and 35729 used by ionic serve (default ports)
+# 17-jul-16 now exposes port 5000 as well in order to run node.js (default port)
+# 19-jul-16 now expose ports 3000, 3001 and 3002 to support Angular using lite-server (default port = 3000)
+EXPOSE 3000 3001 3002 5000 8100 35729
 
 VOLUME /projects
