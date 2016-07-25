@@ -23,10 +23,11 @@ RUN apt-get install -y -q curl
 RUN curl -sL https://deb.nodesource.com/setup_5.x | bash -
 
 # nodejs includes matching npm as well
-# 25-jul-16: bzip2 needed by npm install phantomjs (e.g. for Karma testing)
+# 25-jul-16: bzip2 and libfontconfig needed by npm install phantomjs (e.g. for Karma testing)
 RUN apt-get install -y -q \
     nodejs \
     bzip2 \
+    libfontconfig \
     && apt-get -y autoclean \
     && rm -rf /var/lib/apt/lists/*
 
@@ -41,7 +42,9 @@ RUN apt-get install -y -q \
 ## RUN npm install --unsafe-perm -g -y typescript typings lite-server concurrently angular-cli
 
 # 25-jul-16: Single RUN install instead of multiple ones
-RUN npm install --unsafe-perm -g -y gulp@3.9.1 ionic@beta typescript typings lite-server concurrently angular-cli
+RUN npm install --unsafe-perm -g -y \
+                gulp@3.9.1 ionic@beta typescript typings \
+                lite-server concurrently angular-cli
 
 COPY readme.txt /readme.txt
 COPY start.sh /start.sh
