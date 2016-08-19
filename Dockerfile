@@ -66,4 +66,6 @@ CMD bash -C '/start.sh';'bash'
 EXPOSE 3000 5000 8100 8080 9876 35729
 
 # Root for Angular and Ionic projects
-VOLUME /projects
+# Do NOT use VOLUME statement as it may result in numerous orphaned volumes
+# when innocent users or apps just run docker run --rm ... bash
+# VOLUME /projects
