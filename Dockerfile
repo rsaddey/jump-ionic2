@@ -46,9 +46,11 @@ RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key
 # As of 03-jul-16: You have been warned, DO NOT push this button: RUN npm update -g npm
 # https://github.com/npm/npm/issues/9863 Reinstalling npm v3 fails on Docker
 
+# reqd when running as root, i.e. auto-always --unsafe-perm cli option
+RUN npm config set unsafe-perm true --global
 
 # Install Ionic 2
-RUN npm install --unsafe-perm -g -y \
+RUN npm install -g -y \
                ionic@beta
 
 COPY readme.txt /readme.txt
